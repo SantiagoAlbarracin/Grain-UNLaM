@@ -24,6 +24,7 @@ public class TextImplementation {
 	
 	private JButton btnEncode;
 	private JButton btnDecode;
+	private JButton btnReturn;
 
 	/**
 	 * Launch the application.
@@ -47,6 +48,8 @@ public class TextImplementation {
 	public TextImplementation() {
 		initialize();
 	}
+	
+	private String lastSeed;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -54,7 +57,7 @@ public class TextImplementation {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 434);
+		frame.setBounds(100, 100, 450, 471);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -86,7 +89,7 @@ public class TextImplementation {
 		tfEncodedText.addKeyListener(new KeyAdapter() {
 		    public void keyTyped(KeyEvent e) { 
 		        if (tfEncodedText.getText().length() >= 160 )
-		            e.consume(); 
+		            e.consume();
 		    }  
 		});
 		
@@ -127,8 +130,6 @@ public class TextImplementation {
 		lblSemilla.setBounds(263, 339, 161, 14);
 		frame.getContentPane().add(lblSemilla);
 		
-		
-		
 		tfSeed = new JTextField();
 		tfSeed.setColumns(10);
 		tfSeed.setBounds(263, 364, 161, 20);
@@ -144,12 +145,22 @@ public class TextImplementation {
 		tfKey.setText("california");
 		tfSeed.setText("absolute");
 		
+		btnReturn = new JButton("Volver");
+		btnReturn.setBounds(170, 398, 89, 23);
+		frame.getContentPane().add(btnReturn);
+		
 		initializeButtons();
+	}
+	
+	private void openMenu() {
+		MainApplication.main(null);
+		frame.dispose();
 	}
 
 	private void initializeButtons() {
 		btnEncode.addActionListener(e -> encode());
 		btnDecode.addActionListener(e -> decode());
+		btnReturn.addActionListener(e -> openMenu());
 	}
 
 	private Object encode() {
@@ -176,6 +187,7 @@ public class TextImplementation {
 			GrainText grain = new GrainText(clave, semilla);
 			String criptograma = grain.encrypt(mensaje);
 			tfEncodedText.setText(criptograma);
+			this.lastSeed = semilla;
 		}
 		
 		return null;
@@ -202,6 +214,13 @@ public class TextImplementation {
 		
 		String criptograma = tfEncodedText.getText();
 		if (criptograma != null && !criptograma.isEmpty()) {
+			if (!this.lastSeed.equals(semilla)) {
+				JOptionPane.showMessageDialog(frame,
+					    "No se pudo descodificar",
+					    "NO SE PUEDE REALIZAR ESTA ACCION",
+					    JOptionPane.WARNING_MESSAGE);
+				return null;
+			}
 			GrainText grain = new GrainText(clave, semilla);
 			String descifrado = grain.decrypt(criptograma);
 			tfDecodedText.setText(descifrado);

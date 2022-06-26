@@ -47,18 +47,19 @@ public class Ejemplos {
 			
 			//Ejemplo 3 de textos en los cuales cambia la clave
 			
-			/*
+			
 			String clave = "california";
 			String semilla = "absolute";
 			String mensaje = "Hola UNLaM! :D";
 			GrainText grain = new GrainText(clave, semilla);
 			String criptograma = grain.encrypt(mensaje);
 			System.out.println(criptograma);
-			String clave2 = "vclxnatlbq";
-			GrainText grain2 = new GrainText(clave2, semilla);
+			String clave2 = "california";
+			String semilla2 = "ahsaluta";
+			GrainText grain2 = new GrainText(clave2, semilla2);
 			String descifrado = grain2.decrypt(criptograma);
 			System.out.println(descifrado);
-			*/
+			
 			
 			
 			
